@@ -1,1 +1,11 @@
+# IDE metadata
 /.idea/
+*.iml
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Generated pet build and QA artifacts
+/pets/*/work/
