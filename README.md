@@ -53,19 +53,79 @@
 - `preview.png`：完整动画接触表，供制作与检查使用。
 - `work/qa`：透明度、图集结构、方向语义和动画连续性等 QA 产物。
 
+### 东风谷早苗
+
+以《东方Project》东风谷早苗为原型制作的 Q 版现人神风祝宠物，保留绿色长发、青蛙与白蛇发饰、青白巫女服和御币等标志性元素。等待、工作与审阅动画使用祝祷和神事动作，突出她以信仰引发奇迹的现人神设定。
+
+![东风谷早苗 Codex 宠物动画预览](pets/kochiya-sanae/preview.gif)
+
+| 项目 | 内容 |
+| --- | --- |
+| 宠物 ID | `kochiya-sanae` |
+| 精灵图版本 | Codex v2 |
+| 图集尺寸 | `1536 × 2288` |
+| 单帧尺寸 | `192 × 208` |
+| 图集布局 | `8 × 11` |
+| 标准动画 | 待机、左右移动、挥手、跳跃、失败、等待、祝祷工作、神事审阅 |
+| 角色标识 | 绿色长发、青蛙与白蛇发饰、青白巫女服、御币 |
+| 方向动画 | 顺时针 16 个视线方向，每次间隔 22.5° |
+
+文件位于 [`pets/kochiya-sanae`](pets/kochiya-sanae)：
+
+- `pet.json`：宠物元数据与 Codex v2 配置。
+- `spritesheet.webp`：可直接安装的透明动画图集。
+- `preview.gif`：README 使用的轻量待机动画预览。
+- `preview.png`：完整动画接触表，供制作与检查使用。
+- `work/character-research.md`：现人神风祝设定与视觉锚点研究。
+- `work/qa`：透明度、图集结构、方向盲检和动画连续性等 QA 产物。
+
 ## 安装
 
-将所需宠物的 ID 填入 `$petId`，再复制到 Codex 的个人宠物目录：
+### 远程一键安装（推荐）
+
+不需要克隆整个仓库。安装器只下载所选宠物的两个运行文件和一个校验清单，验证 SHA-256 后只将 `pet.json` 与 `spritesheet.webp` 写入 Codex：
 
 ```powershell
-$petId = 'patchouli-knowledge' # 或 'yakumo-ran'
+# Windows PowerShell
+$installer = Join-Path $env:TEMP "codex-pet-install.ps1"
+Invoke-WebRequest -UseBasicParsing `
+  -Uri "https://raw.githubusercontent.com/Earmo/codex-pet-acgn/main/scripts/install-pet.ps1" `
+  -OutFile $installer
+& $installer kochiya-sanae # 或 patchouli-knowledge、yakumo-ran
+```
+
+```bash
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/Earmo/codex-pet-acgn/main/scripts/install-pet.sh \
+  | bash -s -- kochiya-sanae
+```
+
+列出可用宠物：
+
+```powershell
+& (Join-Path $env:TEMP "codex-pet-install.ps1") -List
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Earmo/codex-pet-acgn/main/scripts/install-pet.sh \
+  | bash -s -- --list
+```
+
+默认安装到 `~/.codex/pets/<pet-id>`（Windows 为 `%USERPROFILE%\\.codex\\pets\\<pet-id>`）。可以通过 `CODEX_HOME` 指定其他 Codex 主目录；测试分支或镜像源时可通过 `CODEX_PET_RAW_BASE` 覆盖 Raw 根地址。
+
+完成后重新启动 Codex，或在宠物选择界面重新选择对应宠物。
+
+### 仓库内手动安装
+
+如果已经克隆本项目，也可以将所需宠物的 ID 填入 `$petId`，再复制到 Codex 的个人宠物目录：
+
+```powershell
+$petId = 'kochiya-sanae' # 或 'patchouli-knowledge'、'yakumo-ran'
 $target = Join-Path $HOME ".codex\pets\$petId"
 New-Item -ItemType Directory -Force -Path $target | Out-Null
 Copy-Item "pets\$petId\pet.json" $target -Force
 Copy-Item "pets\$petId\spritesheet.webp" $target -Force
 ```
-
-完成后重新启动 Codex，或在宠物选择界面重新选择对应宠物。
 
 ## Codex v2 规范
 
@@ -79,4 +139,4 @@ Copy-Item "pets\$petId\spritesheet.webp" $target -Force
 
 ## 版权说明
 
-本项目是非官方同人创作，与 ZUN、上海爱丽丝幻乐团及《东方Project》官方无隶属或合作关系。《东方Project》及八云蓝、帕秋莉·诺蕾姬等相关角色设定的权利归其原权利人所有。
+本项目是非官方同人创作，与 ZUN、上海爱丽丝幻乐团及《东方Project》官方无隶属或合作关系。《东方Project》及八云蓝、帕秋莉·诺蕾姬、东风谷早苗等相关角色设定的权利归其原权利人所有。
